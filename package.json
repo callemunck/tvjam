@@ -1,0 +1,19 @@
+{
+  "name": "tvjam",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "workspaces": ["packages/*", "games/*"],
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "build": "tsc --build"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/callemunck/tvjam.git"
+  },
+  "license": "MIT"
+}
