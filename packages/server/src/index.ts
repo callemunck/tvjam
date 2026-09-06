@@ -1,5 +1,5 @@
 import express from "express";
-import { WebSocketServer } from 'ws';
+import { WebSocketServer, WebSocket } from 'ws';
 
 const app = express();
 
@@ -12,9 +12,13 @@ const server = app.listen(3000, () => {
 });
 
 const wss = new WebSocketServer({ server });
+const players = new Map<string, WebSocket>();
 
 wss.on('connection', (ws) => {
-  console.log('New WebSocket connection established');
+    const playerId = crypto.randomUUID();
+    players.set(playerId, ws);
+    console.log('New WebSocket connection established, playerId:', playerId);
+    ws.send(JSON.stringify({ type: 'connected', playerId }));
   
   ws.on('message', (message) => {
     console.log(`Received message: ${message}`);
@@ -22,6 +26,7 @@ wss.on('connection', (ws) => {
   });
 
   ws.on('close', () => {
-    console.log('WebSocket connection closed');
+    console.log('WebSocket connection closed, playerId:', playerId);
+    players.delete(playerId);
   });
 });
